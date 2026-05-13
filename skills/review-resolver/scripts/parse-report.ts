@@ -94,7 +94,7 @@ function coerceTask(input: Record<string, unknown>): Task | null {
   if (typeof line !== 'number' || !Number.isInteger(line) || line < 1) {
     return null;
   }
-  if (typeof criterion !== 'number' || criterion < 1 || criterion > 6) {
+  if (typeof criterion !== 'number' || criterion < 1 || criterion > 7) {
     return null;
   }
   if (typeof title !== 'string' || !title) {
@@ -115,7 +115,7 @@ function coerceTask(input: Record<string, unknown>): Task | null {
 // Fallback: `<index>. [<severity>] <file>:<line> — <title> — <rationale> (criterion <N>)`
 // Em-dash (U+2014) is the canonical separator; we accept `-` and `–` defensively.
 const FALLBACK_RE =
-  /^\s*\d+\.\s*\[(block|major|minor)\]\s+(\S+?):(\d+)\s+[—\-–]\s+(.+?)\s+[—\-–]\s+(.+?)\s*\(criterion\s+([1-6])\)\s*$/gim;
+  /^\s*\d+\.\s*\[(block|major|minor)\]\s+(\S+?):(\d+)\s+[—\-–]\s+(.+?)\s+[—\-–]\s+(.+?)\s*\(criterion\s+([1-7])\)\s*$/gim;
 
 function parseBulleted(md: string): Task[] {
   const tasks: Task[] = [];

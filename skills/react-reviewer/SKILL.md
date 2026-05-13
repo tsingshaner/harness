@@ -2,15 +2,17 @@
 name: react-reviewer
 description: >-
   Structured React + TypeScript reviews: compound component APIs (Root /
-  subparts style), minimal props, logic in custom hooks, 500-line file cap,
-  CSS Modules or Tailwind, a11y and semantic HTML; optional parallel sub-agents
+  subparts style), minimal props, logic in custom hooks (return surface capped),
+  500-line file cap,
+  CSS Modules or Tailwind, a11y and semantic HTML, TSDoc on public exports;
+  optional parallel sub-agents
   with a lead agent merge. Use for PR reviews, component refactors, or when the
   user asks for a React review.
 ---
 
 # React Reviewer
 
-Structured review of React / TSX changes. Criteria **1–6** below are mandatory coverage areas. Criterion 1 means **compound components** (a composable *API shape*), not a requirement to use any specific UI library.
+Structured review of React / TSX changes. Criteria **1–7** below are mandatory coverage areas. Criterion 1 means **compound components** (a composable *API shape*), not a requirement to use any specific UI library.
 
 ## When to use
 
@@ -49,6 +51,7 @@ Public APIs should read like **named subparts** under a root, not one mega-compo
 
 - **View components**: emphasize JSX structure, conditional rendering, and wiring; move heavy branching, derived data, and side effects into `use*` hooks.
 - If one component accumulates **unrelated effects, long transforms, or reusable algorithms**, extract to `useFoo.ts` (or `useComponentName.ts`) with **clear naming and dependency arrays**.
+- **Hook return surface**: a single `use*` hook must expose **fewer than 20** distinct returned properties (count each named field in the returned object; for array/tuple returns, count each position as one). At or above 20, flag as **major** (or **block** if it obscures types or forces constant destructuring churn): **split hooks**, **group related fields into nested objects** with stable shapes, or **prefer context + focused hooks** instead of one “return everything” hook.
 - Avoid “god components” that mix data fetching, animation, and authorization in one file; split on **hook = logic, component = presentation**.
 
 ### 4. No file over 500 lines
@@ -70,6 +73,13 @@ Public APIs should read like **named subparts** under a root, not one mega-compo
 - Images/media: meaningful `alt`; decorative images use empty `alt`. Sensible heading hierarchy.
 - Landmarks: `main`, `nav`, `header`, `footer`, `section` (with a heading when appropriate); avoid an all-`div` soup.
 
+### 7. TSDoc on public exports (recommended)
+
+- **Targets**: newly added or materially changed **exported** symbols that consumers import—**components** (and compound subparts), **`use*` hooks**, **shared prop / options types**, and **non-obvious module-level helpers** tied to the UI surface.
+- **Style**: use **`/** … */`** blocks compatible with [TSDoc](https://tsdoc.org/) (not bare `//` for public contract text). Prefer a short **summary** line; add `@param`, `@returns`, `@remarks`, or `@example` only when they reduce ambiguity (effects, invariants, “caller must…”, unstable APIs).
+- **Severity**: missing or stale TSDoc on those exports is usually **minor**; escalate to **major** if the API is easy to misuse, has non-obvious preconditions, or duplicates docs the team already treats as release-blocking.
+- **Do not** demand TSDoc on every internal helper or obvious one-liners; match **project norms** if the repo already documents public APIs elsewhere.
+
 ## Multi-agent parallel review (recommended)
 
 When the lead agent should not scan every file alone, split into **three sub-agents in parallel**, each read-only on its slice, returning structured findings; the lead agent **merges and dedupes** into one review.
@@ -78,8 +88,8 @@ When the lead agent should not scan every file alone, split into **three sub-age
 
 | Sub-agent | Focus | Typical inputs |
 |-----------|--------|----------------|
-| **A — Structure & API** | Criteria 1–2: compound component shape, prop surface and naming | Component implementation, public prop types, export map |
-| **B — Logic & size** | Criteria 3–4: hook extraction, presentation purity, line counts | `.tsx` / `use*.ts`, line counts |
+| **A — Structure & API** | Criteria 1–2, 7: compound component shape, prop surface and naming, TSDoc on public exports | Component implementation, public prop types, export map, `/** */` above exports |
+| **B — Logic & size** | Criteria 3–4: hook extraction, hook return field count (cap: fewer than 20 named/tuple slots), presentation purity, line counts | `.tsx` / `use*.ts`, line counts |
 | **C — Style & a11y** | Criteria 5–6: CSS Module/Tailwind, semantic tags, ARIA, keyboard | Style modules, JSX tags and attributes |
 
 ### Sub-agent output format (fixed headings for easy merge)
@@ -110,18 +120,18 @@ Each sub-agent emits only:
 - `<file>` is a workspace-relative path with **no spaces**; if a path contains spaces, replace them with `\ ` so the regex stays single-token. Prefer renaming the bad path instead.
 - `<line>` is a single integer; for whole-file issues, use the first relevant line (do **not** use `?` or ranges in this slot).
 - Use the em-dash `—` as the field separator (U+2014). Never substitute `-` or `–`.
-- `<N>` ∈ `1..6` matching the criteria above.
+- `<N>` ∈ `1..7` matching the criteria above.
 
 ### Lead agent merge rules
 
 1. **Dedupe**: one file/line keeps the **highest** severity only.
 2. **Order**: block → major → minor; same severity sort by file path.
-3. **Actionable**: each item maps to a **concrete change** (extract hook, change tag, shrink props, split file).
+3. **Actionable**: each item maps to a **concrete change** (extract hook, change tag, shrink props, split file, add TSDoc).
 4. **Executive summary**: first **≤5 lines**—overall risk and whether merge should be blocked.
 
 ### Single-agent fallback
 
-If parallel runs are not available: review in order **B (logic/size) → A (compound components / props) → C (style/a11y)** using the same issue-list format for consistent output.
+If parallel runs are not available: review in order **B (logic/size) → A (compound components / props / TSDoc) → C (style/a11y)** using the same issue-list format for consistent output.
 
 ## Final output template (lead → user)
 
@@ -140,16 +150,19 @@ If parallel runs are not available: review in order **B (logic/size) → A (comp
 |---|-----------|--------|
 | 1 | Compound components | … |
 | 2 | Minimal props | … |
-| 3 | Logic in hooks | … |
+| 3 | Logic in hooks; hook return under 20 fields | … |
 | 4 | ≤500 lines | … |
 | 5 | CSS Module / Tailwind | … |
 | 6 | a11y / semantic HTML | … |
+| 7 | TSDoc on public exports | … |
 
 ### Machine-readable issues
 
 ```jsonl
 {"severity":"block","file":"src/Card.tsx","line":42,"criterion":1,"title":"Card has 9 boolean props for sections","fix":"Refactor to Card.Root + Card.Header/Content/Footer subparts"}
 {"severity":"major","file":"src/Card.tsx","line":120,"criterion":3,"title":"useEffect mixes fetch and analytics","fix":"Extract useCardData hook; component renders only"}
+{"severity":"major","file":"src/useDashboard.ts","line":18,"criterion":3,"title":"useDashboard returns 22 top-level fields","fix":"Split into useDashboardFilters + useDashboardMetrics; or group into nested objects"}
+{"severity":"minor","file":"src/useFilters.ts","line":5,"criterion":7,"title":"Exported useFilters has no TSDoc","fix":"Add /** */ summary; document return shape and stale-closure caveats if any"}
 ```
 ```
 
@@ -164,7 +177,7 @@ If parallel runs are not available: review in order **B (logic/size) → A (comp
   | `severity` | `"block"` \| `"major"` \| `"minor"` | Lowercase. |
   | `file` | `string` | Workspace-relative POSIX path. |
   | `line` | `number` | Integer ≥ 1. For whole-file issues, use the first relevant line. |
-  | `criterion` | `1`–`6` | Maps to the 6 criteria above. |
+  | `criterion` | `1`–`7` | Maps to the 7 criteria above. |
   | `title` | `string` | Short, ≤ 80 chars. No newlines. |
   | `fix` | `string` | Concrete change direction, not a patch. No newlines. |
   | `rationale` | `string` (optional) | Longer reasoning if `fix` alone is not enough. |
