@@ -6,6 +6,7 @@ Small collection of agent-oriented **skills** (workflows and checklists) for too
 
 | Skill | File | Summary |
 |--------|------|---------|
+| **git-commit** | [`skills/git-commit/SKILL.md`](skills/git-commit/SKILL.md) | Create a conventional-commit style commit with a markdown bullet-list body and a `Co-Authored-By: Claude Opus 4.7` footer for AI-assisted changes. |
 | **changeset-add** | [`skills/changeset-add/SKILL.md`](skills/changeset-add/SKILL.md) | Create an empty changeset with `pnpm changeset --empty`, fill in frontmatter and release notes from your git changes, then commit with your code. |
 | **figma-to-react-component** | [`skills/figma-to-react-component/SKILL.md`](skills/figma-to-react-component/SKILL.md) | Convert Figma node links into React + MCP-derived node data + @base-ui/react composable components. Supports Tailwind, CSS, and CSS Modules. Generates Playwright component tests after implementation; Vitest browser-mode unit tests after user acceptance unless the user opts out. |
 | **frontend-reviewer** | [`skills/frontend-reviewer/SKILL.md`](skills/frontend-reviewer/SKILL.md) | Orchestrates React UI review and automated fix resolution with human gates and bounded iterations. |
