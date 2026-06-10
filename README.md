@@ -14,3 +14,29 @@ Small collection of agent-oriented **skills** (workflows and checklists) for too
 | **review-resolver** | [`skills/review-resolver/SKILL.md`](skills/review-resolver/SKILL.md) | Resolve issues from a `react-reviewer` report by applying targeted fixes and verifying with typecheck, lint, and tests. |
 
 Open a skill file for the full step-by-step workflow, validation checklist, and anti-patterns.
+
+## Installation
+
+Skills can be installed using the [Vercel Skills CLI](https://github.com/vercel-labs/skills):
+
+**Install all skills to Claude Code:**
+```bash
+npx skills add https://github.com/tsingshaner/harness --all -a claude-code
+```
+
+**Install a specific skill:**
+```bash
+npx skills add https://github.com/tsingshaner/harness --skill git-commit -a claude-code
+```
+
+**Install globally (user directory):**
+```bash
+npx skills add https://github.com/tsingshaner/harness -a claude-code -g
+```
+
+**Skip confirmation prompts:**
+```bash
+npx skills add https://github.com/tsingshaner/harness -a claude-code -y
+```
+
+Once installed, invoke a skill in Claude Code by typing `/<skill-name>`, e.g. `/git-commit`.
