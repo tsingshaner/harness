@@ -137,7 +137,7 @@ fix(parser): handle empty machine-readable issues block gracefully
 - Return early with resolution-complete state when jsonl fence is empty or whitespace-only
 - Add unit test for empty-fence edge case in parse-report.ts
 
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+Co-Authored-By: Codex GPT-5 <noreply@openai.com>
 ```
 
 ### Chore commit (no scope needed)
