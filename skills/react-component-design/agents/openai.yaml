@@ -1,0 +1,4 @@
+interface:
+  display_name: "React Component Design"
+  short_description: "Design layered React components"
+  default_prompt: "Use $react-component-design to structure a React feature into Page, Feature, Model/Hook, and UI layers."

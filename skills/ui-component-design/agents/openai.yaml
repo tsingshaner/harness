@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Component Design"
+  short_description: "Design reusable UI components"
+  default_prompt: "Use $ui-component-design to design a reusable UI component API with accessibility, data attributes, and controlled state."
