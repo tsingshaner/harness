@@ -14,6 +14,7 @@ Small collection of agent-oriented **skills** (workflows and checklists) for too
 | **review-resolver** | [`skills/review-resolver/SKILL.md`](skills/review-resolver/SKILL.md) | Resolve issues from a `react-reviewer` report by applying targeted fixes and verifying with typecheck, lint, and tests. |
 | **react-component-design** | [`skills/react-component-design/SKILL.md`](skills/react-component-design/SKILL.md) | Guide React component architecture: Page/Feature/Model-Hook/UI layering, `useXxxModel` return-value conventions, state-lifting, type exports, and arrow-function component declarations. |
 | **ui-component-design** | [`skills/ui-component-design/SKILL.md`](skills/ui-component-design/SKILL.md) | Guide reusable, business-free React UI component design: composition, `data-part`/`data-scope`/`data-state` attributes, controlled/uncontrolled state, ARIA, Context boundaries, and reusing installed headless primitive libraries (Radix UI, Base UI, Zag.js). |
+| **unit-test-vitest** | [`skills/unit-test-vitest/SKILL.md`](skills/unit-test-vitest/SKILL.md) | Team conventions for writing Vitest test cases: describe/test/expect structure, AAA pattern, one-behavior-per-test, mock usage boundaries (MSW, fake timers, `vi.fn` vs `vi.mock`), assertion specificity, async testing, and file naming. |
 
 Open a skill file for the full step-by-step workflow, validation checklist, and anti-patterns.
 
