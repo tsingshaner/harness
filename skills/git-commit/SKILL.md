@@ -148,7 +148,7 @@ chore: update pnpm lockfile and bump eslint to 9.x
 - Update pnpm-lock.yaml to resolve peer-dependency warnings from eslint 8 → 9
 - Adjust .eslintrc config keys deprecated in v9 (env → languageOptions.globals)
 
-Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+Co-Authored-By: Codex GPT-5.6 Sol <noreply@openai.com>
 ```
 
 ## Anti-patterns
