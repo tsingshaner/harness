@@ -156,6 +156,8 @@ export const AgentListFeature = (props: AgentListFeatureProps) => {
 
 Keep a Feature's own state local to the Feature (or its Model hook) by default. Do not lift state up to a Page or a parent Feature preemptively for hypothetical flexibility or to make the Feature "more reusable" — only lift it when there is a real coordination need between two or more Features.
 
+For high cohesion, keep query state inside the Feature (or its Model hook) when only that Feature uses it; do not have a parent component query the data and pass the query state down through props.
+
 Avoid:
 
 ```tsx
