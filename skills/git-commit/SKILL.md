@@ -6,7 +6,6 @@ description: >-
   AI model used in the session. Use whenever committing code changes produced with
   or reviewed by Claude.
 ---
-
 # Git Commit (Conventional + AI Attribution)
 
 Produces a **conventional commit** with a markdown bullet-list body and a
@@ -26,16 +25,16 @@ Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
 
 ### Type reference
 
-| Type       | When to use |
-|------------|-------------|
+| Type         | When to use                                |
+| ------------ | ------------------------------------------ |
 | `feat`     | New feature or capability visible to users |
-| `fix`      | Bug fix |
-| `refactor` | Code restructure with no behaviour change |
-| `docs`     | Documentation only |
-| `test`     | Tests added or updated |
-| `chore`    | Tooling, config, dependency updates |
-| `perf`     | Performance improvement |
-| `ci`       | CI/CD pipeline changes |
+| `fix`      | Bug fix                                    |
+| `refactor` | Code restructure with no behaviour change  |
+| `docs`     | Documentation only                         |
+| `test`     | Tests added or updated                     |
+| `chore`    | Tooling, config, dependency updates        |
+| `perf`     | Performance improvement                    |
+| `ci`       | CI/CD pipeline changes                     |
 
 ### Subject line rules
 
@@ -111,6 +110,7 @@ git log -1 --pretty=fuller
 ```
 
 Check:
+
 - Subject matches type and is ≤72 chars
 - Body bullets cover every staged hunk
 - Footer is present and correctly formatted

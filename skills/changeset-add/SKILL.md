@@ -68,17 +68,11 @@ Keep bullets consistent with **what you actually commit**. If one commit mixes t
 
 ```bash
 git add .changeset/<slug>.md
-# If you have unstaged code changes, add those too
-git commit -m "chore: <short subject>"
 ```
 
-**GPG signing**: if you see `gpg: signing failed` or pinentry is unavailable, you can temporarily use:
-
-```bash
-git commit --no-gpg-sign -m "..."
-```
-
-Fix GPG locally, then run `git commit --amend --no-edit -S` if you need a signed commit.
+If you have unstaged code changes, stage those intentionally too. Then follow
+[the git-commit skill](../git-commit/SKILL.md) for drafting, creating, and
+verifying the commit.
 
 ## Checklist
 
